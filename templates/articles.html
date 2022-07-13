@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block title %}
+    {{var}}
+{% endblock %}
+
+{% block content %}
+    <h1>articale</h1>
+    <ul class="list-group">
+        {% for element in articles %}
+                <li class="list-group-item">
+                    <a href="/articles/{{element.id}}">{{element.title}}</a>
+                </li>
+        {% endfor %}
+    </ul>            
+    
+{% endblock %}
+
+

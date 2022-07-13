@@ -1,0 +1,57 @@
+#Lesson 1.0 ---> 
+#Lesson 1.1 ---> How to Render (create templates Folder & create html File and Use render_template('index.html'))
+#Lesson 1.2 ---> Pass Variables (render_template('index.html',var=home) ==> HTML File {{var}}) 
+#Lesson 1.3 ---> Template Engine [Software Designed to Combine Templates with data FramWork to produce result documents]
+#dataFrameWork [Python (Flask),PHP, NodeJS, ....]  --> Combine Using Template Engine --> Document [WebPages]
+#dataFrameWork [Python (Flask)]+ HTML --> Jinja---> Result [WebPages]
+#Tools for VStudioCode
+#1- Python & Flask Environment
+    # Virtual Machine --> python -m venv [NameVirtualMachine]
+    # Ubuntu source ./[NameVirtualMachine]/bin/activate 
+    # [or] 
+    # windows ./[NameVirtualMachine]/Scripts/activate
+    # pip freeze
+    # pip install flask
+    # pip install flask-WTF
+    # pip install pymysql 
+    # pip install -U Flask-SQLAlchemy
+    # pip install passlib
+    # pip freeze > requirements.txt
+#2- VisualStudio Code Extenstion 
+# Pyton
+# flask-snippets
+# Jinja 
+#Djaneiro - Django Snippets
+#-------------------------------------------------------------------------------
+CREATE TABLE users (id INT(11) AUTO_INCREMENT PRIMARY KEY,name VARCHAR(100),
+username VARCHAR(100),password VARCHAR(100),
+date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,admin tinyint(1));
+#-----------------------------------------------------------------------------
+CREATE TABLE articale (id INT(11) AUTO_INCREMENT PRIMARY KEY,title VARCHAR(100),
+content TEXT , created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,approve tinyint(1));
+
+DESCRIBE users;
+
+Field       Type            Null    Key     Default                 Extra
+id          int(11)         NO      PRI     NULL                    auto_increment
+name        varchar(100)    YES     ----    NULL                        ---
+username    varchar(100)    YES     ----    NULL                        ---
+password    varchar(100)    YES     ----    NULL                        ---
+date        timestamp       NO      ----    current_timestamp()         ---
+admin       tinyint(1)      YES     ----    NULL                        ---
+--------------------------------------------------------------------------------------
+DESCRIBE articale;
+
+Field       Type            Null    Key     Default                 Extra
+id          int(11)         NO      PRI     NULL                    auto_increment
+title       varchar(100)    YES     ----    NULL                        ---
+content     text            YES     ----    NULL                        ---
+created     timestamp       NO      ----    current_timestamp()         ---
+approve     tinyint(1)      YES     ----    NULL                        ---
+---------------------------------------------------------------------------------------
+#linux Xamp
+sudo /etc/init.d/apache2 stop
+sudo /opt/lampp/lampp start
+
+
+
