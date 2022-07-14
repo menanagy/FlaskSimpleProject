@@ -5,14 +5,21 @@
 
 {% block content %}
     <h1>articale</h1>
+    <a href="{{url_for('article_create')}}" class= "btn btn-primary btn-lg">New Article</a>
+    <br>
+    <br>
     <ul class="list-group">
         {% for element in articles %}
                 <li class="list-group-item">
                     <a href="/articles/{{element.id}}">{{element.title}}</a>
                 </li>
-        {% endfor %}
+                {% endfor %}
     </ul>            
-    
+            
+    {% if msg %}
+            <div>{{msg}}</div>
+    {% endif %}
+            
 {% endblock %}
 
 

@@ -10,9 +10,13 @@ class RegisterForm (Form):
     ])
     confirm = PasswordField('Repeat Password')
 
-class Login (Form):
-        username = StringField('Username', [validators.Length(min=4,max=15)])
-        password = PasswordField('Password', [
-        validators.DataRequired(),
-    ])
+# class Login (Form):
+#         username = StringField('Username', [validators.Length(min=4,max=15)])
+#         password = PasswordField('Password', [
+#         validators.DataRequired(),
+#     ])
 
+
+class Add_Article_form (Form):
+    title=StringField('Title', [validators.Length(min=5,max=25)])
+    content=TextAreaField('Content', [validators.Length(min=30)])

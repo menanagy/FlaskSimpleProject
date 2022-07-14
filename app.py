@@ -1,15 +1,14 @@
 from unicodedata import name
-from flask import Flask,render_template, request,session, template_rendered,url_for,redirect,logging
+from flask import Flask, flash,render_template, request,session, template_rendered,url_for,redirect,logging
 from importlib_metadata import method_cache
 from DB import db_retrive
 from forms import RegisterForm
-from forms import Login
+# from forms import 
+from forms import Add_Article_form
 from flask_sqlalchemy import SQLAlchemy
-
 from sqlalchemy.sql import func
 from passlib.hash import sha256_crypt
-
-
+from sqlalchemy import desc ,asc
 app=Flask(__name__) #WSGI WebService Gateway Interface 
 
 data=db_retrive() 
@@ -28,8 +27,8 @@ db=SQLAlchemy(app)
 class Users(db.Model):
     id = db.Column(db.Integer, primary_key=True,autoincrement=True)
     name = db.Column(db.String(250), nullable=True)
-    username = db.Column(db.String(250), nullable=True)
-    email = db.Column(db.String(250), nullable=True)
+    username = db.Column(db.String(250),unique=True ,nullable=True)
+    email = db.Column(db.String(250),unique=True,nullable=True)
     password = db.Column(db.String(250), nullable=True)
     date = db.Column(db.DateTime(timezone=True),nullable=False,server_default=func.now())
     admin =db.Column(db.Integer,nullable=True,)
@@ -43,15 +42,41 @@ class Users(db.Model):
             self.daظte = date
         if admin != 0 :
             self.admin = admin
-        
+class Articles(db.Model):
+    id = db.Column(db.Integer, primary_key=True,autoincrement=True)
+    title = db.Column(db.String(250), nullable=True)
+    author= db.Column(db.String(250), nullable=True)
+    content=db.Column(db.Text)
+    created = db.Column(db.DateTime(timezone=True),nullable=False,server_default=func.now())
+    approve =db.Column(db.Integer,nullable=True,)
 
-        
+    def __init__(self, title,author, content,created=" ",approve=0):
+        self.title = title
+        self.author=author
+        self.content=content
+        if created != " " :
+            self.created = created
+        # if approve != 0 :
+        self.approve = approve
+
+
+
+
+
+
 def add_user(name,username,email,passwd):
-    #Create New ROW (New BOOK)
+    #Create New ROW (New User)
         enc_passwd=sha256_crypt.encrypt(passwd)
         db.create_all()
         new_user = Users(name,username,email,enc_passwd)
         db.session.add(new_user)
+        db.session.commit()
+
+def add_article(title,author,content):
+        #Create New ROW (New Article)
+        db.create_all()
+        new_article = Articles(title,author,content)
+        db.session.add(new_article)
         db.session.commit()
 
 @app.route('/')
@@ -80,8 +105,35 @@ def about():
 @app.route('/articles')
 def article():
     # return "<h1>Hello Mina</h1>" #ٌٌResponce
-    return render_template('articles.html',articles=data)#Responce
+    #someselect.order_by(desc(table1.mycol))
+        articles = Articles.query.filter_by(approve=0).order_by(desc(Articles.id))
+        print(f"type of Article ={type(articles)},articles={articles}")
 
+        for article in articles:
+            print(f"type of Article ={type(article)}")
+            print(f"Article = {article} articleID={article.id} articleTitle={article.title}")
+        if(articles != [] ):
+            return render_template('articles.html',articles=articles)#Responce
+        else:
+            #Empty Article
+            msg="Error Sorry Not found Article"
+            return render_template('articles.html',msg=msg)#Responce
+
+
+# Create Articles 
+@app.route('/create',methods=['GET','POST'])
+def article_create():
+    form=Add_Article_form(request.form)
+    if request.method == "POST" and form.validate():
+        #get Data From the Forms
+        title=form.title.data
+        content=form.content.data
+        author=session["username"]
+        add_article(title,author,content)
+        print ("___________add new Article_______________")
+        return redirect(url_for("article"))#show Articles
+    return render_template('createArticle.html',form=form)
+    
 @app.route('/articles/<string:id>')
 def article_detailes(id):
     # return "<h1>Hello Mina</h1>" #ٌٌResponce

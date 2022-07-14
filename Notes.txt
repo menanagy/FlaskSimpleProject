@@ -27,8 +27,8 @@ CREATE TABLE users (id INT(11) AUTO_INCREMENT PRIMARY KEY,name VARCHAR(100),
 username VARCHAR(100),password VARCHAR(100),
 date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,admin tinyint(1));
 #-----------------------------------------------------------------------------
-CREATE TABLE articale (id INT(11) AUTO_INCREMENT PRIMARY KEY,title VARCHAR(100),
-content TEXT , created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,approve tinyint(1));
+CREATE TABLE articale (id INT(11) AUTO_INCREMENT PRIMARY KEY,title VARCHAR(100),author VARCHAR(100),
+content TEXT , created  DEFAULTIMESTAMPT CURRENT_TIMESTAMP,approve tinyint(1));
 
 DESCRIBE users;
 
@@ -45,6 +45,7 @@ DESCRIBE articale;
 Field       Type            Null    Key     Default                 Extra
 id          int(11)         NO      PRI     NULL                    auto_increment
 title       varchar(100)    YES     ----    NULL                        ---
+author      varchar(100)    YES     ----    NULL                        ---
 content     text            YES     ----    NULL                        ---
 created     timestamp       NO      ----    current_timestamp()         ---
 approve     tinyint(1)      YES     ----    NULL                        ---
